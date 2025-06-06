@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Similarity Finder</title>
+    <style>
+        /* ... (all the style from the previous version remains the same) ... */
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; margin: 2em; background-color: #f4f4f9; color: #333; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 2em; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1, h2 { color: #0056b3; }
+        .step { border: 1px solid #ddd; padding: 1.5em; margin-bottom: 2em; border-radius: 5px; background-color: #fafafa; }
+        input[type="file"] { border: 1px solid #ccc; padding: 8px; border-radius: 4px; }
+        button { background-color: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: 1em; margin-right: 10px; }
+        button:hover { background-color: #0056b3; }
+        button:disabled { background-color: #ccc; cursor: not-allowed; }
+        #reset-db-btn { background-color: #dc3545; }
+        #reset-db-btn:hover { background-color: #c82333; }
+        .results { margin-top: 2em; padding: 1em; border: 1px solid #ccc; border-radius: 5px; display: none; }
+        .query-display { text-align: center; margin-bottom: 2em; }
+        .query-display img { max-width: 250px; max-height: 250px; border: 2px solid #007bff; border-radius: 4px; }
+        .matches-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1.5em; margin-top: 1em; }
+        .match-item { border: 1px solid #ddd; border-radius: 4px; padding: 0.5em; text-align: center; background-color: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .match-item img { max-width: 100%; height: auto; border-radius: 4px; }
+        .match-item p { margin: 0.5em 0 0 0; font-size: 0.9em; word-wrap: break-word; }
+        .match-item p b { color: #333; }
+        #status, #match-status { margin-top: 1em; font-weight: bold; }
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; width: 20px; height: 20px; animation: spin 2s linear infinite; display: none; margin: 10px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Face Similarity Finder</h1>
+
+        <!-- Step 1: Manage Database -->
+        <div class="step">
+            <h2>Step 1: Manage Face Database</h2>
+            <p>Add one or more folders of images to the database. You can add more at any time.</p>
+            <form id="upload-database-form">
+                <input type="file" id="database-files" name="database_files" webkitdirectory directory multiple required>
+                <button type="submit" id="upload-db-btn">Add Folder to Database</button>
+            </form>
+            <hr style="margin: 1.5em 0;">
+            <p>Or, you can clear the entire database to start fresh.</p>
+            <button type="button" id="reset-db-btn">Reset Entire Database</button>
+            <div class="loader" id="db-loader"></div>
+            <div id="status"></div>
+        </div>
+
+        <!-- Step 2: Find Match -->
+        <div class="step">
+            <h2>Step 2: Find Similar Faces</h2>
+            <p>Upload a single image to find all similar faces in the database.</p>
+            <form id="find-match-form">
+                <input type="file" id="query-image" name="query_image" accept="image/*" required>
+                <button type="submit" id="find-match-btn">Find Matches</button>
+            </form>
+            <div class="loader" id="match-loader"></div>
+            <div id="match-status"></div>
+        </div>
+
+        <!-- Results Display -->
+        <div class="results" id="results-area">
+            <!-- ... (this part remains exactly the same as before) ... -->
+            <div class="query-display">
+                <h2>Your Image</h2>
+                <img id="query-img-display" src="" alt="Query Image">
+            </div>
+            <hr>
+            <h2 id="matches-title">Similar Faces Found</h2>
+            <div id="matches-container"></div>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
